@@ -209,3 +209,69 @@ def big_shoe_rebounds
   end
   rebounds 
 end
+
+def most_points_scored
+  points_array = []
+  points = 0 
+  game_hash.each do |home, hash|
+    hash[:players].each do |value|
+      points_array << value[:points]
+      points_array = points_array.sort 
+      if points_array[points_array.length - 1] == value[:points]
+        points = value[:player_name]
+      end 
+    end
+  end
+  points 
+end
+
+def winning_team
+  points_sum_h = 0
+  points_sum_a = 0 
+  i = 0 
+  while i < game_hash[:home][:players].length || i < game_hash[:away][:players].length
+    if game_hash[:home]
+      points_sum_h += game_hash[:home][:players][i][:points]
+    elsif game_hash[:away]
+      points_sum_a += game_hash[:away][:players][i][:points]
+    end 
+    i += 1 
+  end 
+  if points_sum_h > points_sum_a 
+    game_hash[:home][:team_name]
+  elsif points_sum_h < points_sum_a 
+    game_hash[:away][:team_name]
+  end 
+end 
+
+def player_with_longest_name
+  name_length = []
+  name = ""
+  game_hash.each do |home, hash|
+    hash[:players].each do |value|
+      name_length << value[:player_name].length 
+      name_length = name_length.sort 
+      if name_length[name_length.length - 1] == value[:player_name].length 
+        name = value[:player_name]
+      end
+    end
+  end
+  name 
+end
+
+def long_name_steals_a_ton
+  name_most_steals = ""
+  steals = []
+  game_hash.each do |home, hash|
+    hash[:players].each do |value|
+      steals << value[:steals]
+      steals = steals.sort
+      if steals[steals.length - 1] == value[:steals]
+        name_most_steals = value[:player_name]
+      end 
+    end 
+  end
+  if player_with_longest_name == name_most_steals
+    true 
+  end 
+end
